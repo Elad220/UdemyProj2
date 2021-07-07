@@ -114,7 +114,7 @@ while running:
         elif index == 2:
             player.choose_item()
             item_choice = int(input("    Choose item: ")) - 1
-            if item_choice == -1:
+            if item_choice <= -1 or item_choice >= len(player.items) - 1:
                 continue
 
             item = player.items[item_choice]["item"]
@@ -128,8 +128,8 @@ while running:
             elif item.type == "elixir":
                 if item.name == "Super Elixir":
                     for character in players:
-                        character.hp = player.maxhp
-                        character.mp = player.maxmp
+                        character.hp = character.maxhp
+                        character.mp = character.maxmp
                 else:
                     player.hp = player.maxhp
                     player.mp = player.maxmp
@@ -172,8 +172,8 @@ while running:
             target = random.randrange(0, players_alive)
             enemy_dmg = enemy.generate_damage()
             players[target].take_damage(enemy_dmg)
-            print(enemy.name.replace(" ", "") + " attacks " + players[target].name.replace(" ","") + " for", enemy_dmg, "points of HP")
-        elif enemy_choice == 1:
+            print(enemy.name.replace(" ", "") + " attacks " + players[target].name.replace(" ", "").replace(":", "") + " for", enemy_dmg, "points of HP")
+        elif enemy_choice == 1 and players_alive > 0:
             spell, magic_dmg = enemy.choose_enemy_spell()
             if spell != "nothing":
                 enemy.reduce_mp(spell.cost)
@@ -185,7 +185,7 @@ while running:
                 elif spell.type == "damaging":
                     target_index = random.randrange(0, players_alive)
                     players[target_index].take_damage(magic_dmg)
-                    print(bcolors.OKBLUE + "\n" + enemy.name.replace(" ","") + "'s " + spell.name + " deals " + players[target_index].name.replace(" ", "") + " " + str(magic_dmg), "points of damage" + bcolors.ENDC)
+                    print(bcolors.OKBLUE + "\n" + enemy.name.replace(" ", "") + "'s " + spell.name + " deals " + players[target_index].name.replace(" ", "").replace(":", "") + " " + str(magic_dmg), "points of damage" + bcolors.ENDC)
 
                     if players[target_index].get_hp() == 0:
                         print(bcolors.FAIL + players[target_index].name.replace(" ", "") + " was knocked out!" + bcolors.ENDC)
@@ -193,7 +193,5 @@ while running:
                         if len(players) == 0:
                             print(bcolors.FAIL + bcolors.BOLD + "You lose..." + bcolors.ENDC)
                             running = False
-
-
 
 
