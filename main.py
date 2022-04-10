@@ -1,7 +1,7 @@
 import random
 import sys
 
-from Classes.game import Person,bcolors
+from Classes.game import Person, bcolors
 from Classes.magic import Spell
 from Classes.inventory import Item
 
